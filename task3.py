@@ -1,6 +1,6 @@
 import requests
-import time
 import copy
+import timeit
 
 def download_text(url):
     try:
@@ -115,11 +115,9 @@ def measure_algorithm_performance(text, pattern, algorithms):
     text_copy = copy.deepcopy(text)
     for algorithm_name, algorithm in algorithms.items():
         print(f"Performance for {algorithm_name}:")
-        start_time = time.time()
-        algorithm_result = algorithm(text_copy, pattern)
-        end_time = time.time()
-        print(f"    Time taken: {end_time - start_time} seconds")
-        if algorithm_result == -1:
+        time_taken = timeit.timeit(lambda: algorithm(text_copy, pattern), number=1)
+        print(f"    Time taken: {time_taken} seconds")
+        if algorithm(text_copy, pattern) == -1:
             print("    Pattern not found.")
 
 def main():
